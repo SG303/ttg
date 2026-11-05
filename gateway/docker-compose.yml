@@ -1,0 +1,34 @@
+# Gateway: Tailscale + a dumb TCP pass-through to the Traefik at home.
+# TLS is terminated at home, so no certificates or DNS tokens live on this machine.
+services:
+  tailscale:
+    image: tailscale/tailscale:stable
+    hostname: gateway
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY:-}      # only needed for the very first login
+      - TS_HOSTNAME=gateway
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - ts-state:/var/lib/tailscale     # persistent -> no re-login after recreate
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+  proxy:
+    image: traefik:v3
+    network_mode: service:tailscale     # shares the tailscale network stack
+    depends_on:
+      - tailscale
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./forward.yml:/etc/traefik/forward.yml:ro
+    restart: unless-stopped
+
+volumes:
+  ts-state:

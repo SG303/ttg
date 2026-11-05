@@ -1,0 +1,15 @@
+# Pass every TLS connection through to your home Traefik (end-to-end encrypted).
+# TODO: replace the address with the Tailscale IP (`tailscale ip -4`) of the host running Traefik.
+tcp:
+  routers:
+    home:
+      entryPoints: [websecure]
+      rule: "HostSNI(`*`)"
+      tls:
+        passthrough: true
+      service: home
+  services:
+    home:
+      loadBalancer:
+        servers:
+          - address: "100.64.0.10:443"
