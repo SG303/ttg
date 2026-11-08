@@ -59,3 +59,7 @@ The gateway itself needs no change.
 - **404 from Traefik:** the pass-through works, but there is no router for that host.
 - **Timeout:** check reachability with `docker compose exec tailscale tailscale ping <home-tailscale-ip>`.
 - **Port 80/443 already in use:** change the published ports in `docker-compose.yml`.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

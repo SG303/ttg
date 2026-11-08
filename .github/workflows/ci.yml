@@ -1,0 +1,25 @@
+# Validates the compose file (SG303 baseline v1). Make the "lint" job a
+# required check in the ruleset.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate compose file
+        run: docker compose -f gateway/docker-compose.yml --env-file gateway/.env.example config --quiet
