@@ -6,6 +6,9 @@ A minimal Tailscale + Traefik gateway. It lets a machine that cannot join your t
 (e.g. a locked-down work laptop, using WSL/Docker) reach services in your tailnet by their
 normal hostnames, with valid TLS certificates and almost nothing to maintain.
 
+> [!NOTE]
+> Personal project, built with AI coding agents under my supervision. Review the code carefully before you use it.
+
 ```
 Browser ──443──> gateway (Docker: tailscale + traefik TCP pass-through)
                     └─ tailnet ─> your Traefik (TLS, ACME) ─> services
@@ -59,6 +62,12 @@ The gateway itself needs no change.
 - **404 from Traefik:** the pass-through works, but there is no router for that host.
 - **Timeout:** check reachability with `docker compose exec tailscale tailscale ping <home-tailscale-ip>`.
 - **Port 80/443 already in use:** change the published ports in `docker-compose.yml`.
+
+## Status
+
+Personal project, built with AI coding agents under my supervision. There is
+no support and no stability guarantee; review the code carefully before you
+rely on it. See [LICENSE](LICENSE) for the warranty terms.
 
 ## License
 
