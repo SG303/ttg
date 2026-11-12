@@ -5,7 +5,7 @@ join the tailnet (e.g. a locked-down work laptop with WSL) reach services in
 the tailnet by their normal hostnames. Traefik only passes TLS through to the
 home Traefik, so the gateway holds no certificates or DNS tokens. Public repo.
 
-Follows the SG303 baseline v1 (`sgstack/global/AGENTS.md`,
+Follows the SG303 baseline v2 (`sgstack/global/AGENTS.md`,
 `sgstack/baseline/tools.md`). If you cannot read those: work on a branch,
 open a PR, merge only with green checks (squash); never commit secrets or
 personal data; English for everything in the repo; talk to me in German.
